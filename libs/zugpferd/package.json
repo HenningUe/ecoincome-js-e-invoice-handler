@@ -1,0 +1,22 @@
+{
+  "name": "@e-invoice/zugpferd",
+  "version": "0.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -b",
+    "docker:build": "pnpm --silent --workspace-root pnpm-context -- -p 'tsconfig.json' -p 'bin/' -p '!**/*.iml' libs/zugpferd/Dockerfile | docker build --build-arg PACKAGE_PATH=libs/zugpferd -",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@e-invoice/logging": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.13.4",
+    "jest": "^29.7.0 ",
+    "ts-jest": "^29.2.5",
+    "typescript": "^5.7.3"
+  },
+  "private": true
+}
