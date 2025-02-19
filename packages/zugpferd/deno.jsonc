@@ -1,0 +1,15 @@
+{
+	"name": "@workspace/auth",
+	"version": "0.1.0",
+	"exports": "./index.ts",
+	"fmt": {
+		"semiColons": false
+	},
+	"tasks": {},
+	"imports": {
+		//"better-auth": "npm:better-auth@1.1.11",
+		"xsd2ts": "npm:xsd2ts@^0.9.17",
+		"@types/node": "npm:@types/node@*22.5.4",
+		"##deno-python": "https://deno.land/x/python/mod.ts"
+	}
+}

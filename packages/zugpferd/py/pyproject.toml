@@ -1,0 +1,28 @@
+[build-system]
+requires = [
+    "setuptools~=75.8",
+]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+version = "0.0.1"
+name = "zugpferd_test"
+readme = "README.md"
+requires-python = ">=3.11"
+
+dependencies = [
+    "drafthorse~=2025.1",
+    "pytest",
+]
+
+# development only
+[tool.autopep8]
+max-line-length = 100
+in-place = true
+
+[tool.mypy]
+strict = true
+
+[tool.pylint]
+max-line-length = 100
