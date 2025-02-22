@@ -1,0 +1,1 @@
+.venv/scripts/pip install -e git+https://github.com/pretix/python-drafthorse.git#egg=drafthorse

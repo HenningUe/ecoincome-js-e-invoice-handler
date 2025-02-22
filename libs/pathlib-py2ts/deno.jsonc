@@ -1,0 +1,15 @@
+{
+  "name": "@e-invoice/pathlib-py2ts",
+  "version": "0.1.0",
+  "exports": "./mod.ts",
+  "tasks": {
+    "dev": "deno run --watch mod.ts"
+  },
+  "imports": {
+    "@std/fs": "jsr:@std/fs@^1.0.13",
+    "@std/path": "jsr:@std/path@^1.0.8",
+    "glob": "npm:glob@^11.0.1"
+  },
+  "compilerOptions": {
+  }
+}

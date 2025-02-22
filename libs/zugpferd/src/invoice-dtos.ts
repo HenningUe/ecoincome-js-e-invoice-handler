@@ -56,8 +56,8 @@ export class TradeDelivery {
 }
 
 export interface QuantityElementParams {
-  unitCode?: string
-  quantity?: number
+  unitCode: string
+  quantity: number
 }
 
 export class QuantityElement {

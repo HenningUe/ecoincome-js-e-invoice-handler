@@ -1,0 +1,12 @@
+{
+  "name": "@e-invoice/logging",
+  "version": "0.1.0",
+  "exports": "./mod.ts",
+  "tasks": {
+  },
+  "imports": {
+    "@loglayer/transport-log-file-rotation": "npm:@loglayer/transport-log-file-rotation@^2.0.1",
+    "loglayer": "npm:loglayer@^6.1.1",
+    "serialize-error": "npm:serialize-error@^12.0.0"
+  }
+}

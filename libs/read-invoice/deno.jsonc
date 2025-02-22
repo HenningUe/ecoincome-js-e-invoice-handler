@@ -1,0 +1,14 @@
+{
+  "name": "@e-invoice/read-invoice",
+  "version": "0.1.0",
+  "exports": "./mod.ts",
+  "tasks": {
+  },
+  "imports": {
+    "class-validator": "npm:class-validator@^0.14.1",
+    "xpath-ts": "npm:xpath-ts@^1.3.13",
+    "xmldom-ts": "npm:xmldom-ts@^0.3.1"
+  },
+  "compilerOptions": {
+  }
+}

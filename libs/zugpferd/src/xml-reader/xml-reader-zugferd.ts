@@ -1,5 +1,5 @@
 import * as xpath from "xpath-ts"
-import * as invoiceDefs from "../invoice-dtos.ts"
+import * as invoiceDefs from "./../invoice-dtos.ts"
 import { InvoiceXmlReaderBase } from "./xml-reader-base.ts"
 
 export class InvoiceZugpferdXmlReader extends InvoiceXmlReaderBase {
@@ -42,12 +42,9 @@ export class InvoiceZugpferdXmlReader extends InvoiceXmlReaderBase {
     // </ram:SpecifiedTradeProduct>
     const tradePrdEl = get1stEl(node, "ram:SpecifiedTradeProduct")
     const prdName = get1stElTxt(tradePrdEl, "ram:Name")
-    const prdGlobalID = get1stElTxtMissingOk(tradePrdEl, "ram:GlobalID")
-    let schemeID = undefined
-    if (prdGlobalID) {
-      schemeID = get1stElAttr(tradePrdEl, "ram:GlobalID", "schemeID")
-    }
-    const prdSellerAssignedID = get1stElTxtMissingOk(tradePrdEl, "ram:SellerAssignedID")
+    const prdGlobalID = get1stElTxt(tradePrdEl, "ram:GlobalID")
+    const schemeID = get1stElAttr(tradePrdEl, "ram:GlobalID", "schemeID")
+    const prdSellerAssignedID = get1stElTxt(tradePrdEl, "ram:SellerAssignedID")
     const prdDescription = get1stElTxtMissingOk(tradePrdEl, "ram:Description")
 
     let applPrdCharacteristic = undefined
@@ -93,20 +90,16 @@ export class InvoiceZugpferdXmlReader extends InvoiceXmlReaderBase {
       quantity: billedQuantityNum,
     })
 
-    const packageQuantityTxt = get1stElTxtMissingOk(
+    const packageQuantityTxt = get1stElTxt(
       tradeDeliveryEl,
       "ram:PackageQuantity",
     )
-    let packageQuantityNum = undefined
-    let packageQuantityUnitCode = undefined
-    if (packageQuantityNum) {
-      packageQuantityNum = parseFloat(<string> packageQuantityTxt)
-      packageQuantityUnitCode = get1stElAttr(
-        tradeDeliveryEl,
-        "ram:PackageQuantity",
-        "unitCode",
-      )
-    }
+    const packageQuantityNum = parseFloat(packageQuantityTxt)
+    const packageQuantityUnitCode = get1stElAttr(
+      tradeDeliveryEl,
+      "ram:PackageQuantity",
+      "unitCode",
+    )
     const packageQuantity = new invoiceDefs.QuantityElement({
       unitCode: packageQuantityUnitCode,
       quantity: packageQuantityNum,
