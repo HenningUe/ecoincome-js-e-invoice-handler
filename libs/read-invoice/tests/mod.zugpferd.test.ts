@@ -1,17 +1,16 @@
 import * as assert from "jsr:@std/assert"
 import { Path } from "@e-invoice/pathlib-py2ts"
-import { readInvoiceFromFile, readInvoiceFromFileSync } from "../mod.ts"
+import { readInvoiceFromFileSync } from "../mod.ts"
 
 function getTestRescDir(): Path {
   // @ts-ignore TS2345
-  const x = 1
-  return new Path(<string> import.meta.filename).parent.join("resources")
+  return new Path(<string> import.meta.filename).parent.join("resources/zugferd")
 }
 
 Deno.test("file content", () => {
   const fileName = "zugferd_2p3_EXTENDED_Warenrechnung.xml"
   const fileP = getTestRescDir().join(fileName)
-  const invoice = readInvoiceFromFileSync(fileP)
+  readInvoiceFromFileSync(fileP)
   assert.assert(true)
 })
 

@@ -10,17 +10,24 @@ export class Path {
     this.itemPath = pathlib.resolve(pathlib.join(itemPath, ...paths))
   }
 
-  // Get absolute path
+
+  /**
+   * Get absolute path
+   */
   get absolute(): string {
     return pathlib.normalize(pathlib.resolve(this.itemPath))
   }
 
-  // Get absolute path
+  /**
+   * Get absolute path
+   */
   get path(): string {
     return this.absolute
   }
 
-  // Get parent directory
+  /**
+   * Get parent directory
+   */
   get parent(): Path {
     return new Path(pathlib.dirname(this.itemPath))
   }
