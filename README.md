@@ -17,3 +17,7 @@ These Deno-Extensions are recommendable to work with Deno
 - Deno VS Code Extension Pack
 - deno run ${file}
 - Deno Standard Library Snippets
+
+Notes: xRechnung can be submitted in xml formats "UBL" or "UN/CEFACT CII". A UN/CEFACT XRechnung is
+based on the same schema file and is identical to the embedded XML structure in a ZUGFeRD 2.0 PDF
+according to the EN16931 profile.

@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+  <ubl:Invoice xmlns:ubl="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:cec="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2" xmlns:vrbl="urn:vertexinc:vrbl:ExtensionComponent:1">
+  	<!-- Required UBL extensions -->
+  	<cec:UBLExtensions>
+  		<cec:UBLExtension>
+  			<cec:ExtensionContent>
+  				<vrbl:InvoiceExtension>
+  					<vrbl:InstallationSerialNumber>99887744</vrbl:InstallationSerialNumber>
+  					<vrbl:InvoiceSeries>AB789</vrbl:InvoiceSeries>					
+  					<vrbl:InvoiceSubtypeCode>VRBL:GR:5.1</vrbl:InvoiceSubtypeCode>
+  					<vrbl:RoutingDetails>
+  						<!-- Unique sender ID. In case of Greece always the sender's VAT ID -->
+  						<vrbl:Sender>EL123456789</vrbl:Sender>
+  						<vrbl:Receiver>GENERIC_PEPPOL_UBL_GR_1p0p0</vrbl:Receiver>
+  					</vrbl:RoutingDetails>
+  				</vrbl:InvoiceExtension>
+  			</cec:ExtensionContent>
+  		</cec:UBLExtension>
+  	</cec:UBLExtensions>
+  	<cbc:CustomizationID>urn:vertexinc:vrbl:billing:1</cbc:CustomizationID>
+  	<cbc:ProfileID>urn:vertexinc:vrbl:billing:1</cbc:ProfileID>
+  	<cbc:ID>CN456</cbc:ID>
+  	<cbc:IssueDate>2024-07-12</cbc:IssueDate>
+  	<cbc:IssueTime>15:30:00Z</cbc:IssueTime>
+  	<cbc:DueDate>2024-10-10</cbc:DueDate>
+  	<cbc:InvoiceTypeCode>381</cbc:InvoiceTypeCode>
+  	<cbc:Note>This is an invoice free-text</cbc:Note>
+  	<cbc:DocumentCurrencyCode>EUR</cbc:DocumentCurrencyCode>
+  	<cbc:BuyerReference>buyer_ref_number234</cbc:BuyerReference>
+  	<cac:InvoicePeriod>
+  		<cbc:StartDate>2024-11-26</cbc:StartDate>
+  		<cbc:EndDate>2024-11-30</cbc:EndDate>
+  		<cbc:Description>Monthly</cbc:Description>
+  	</cac:InvoicePeriod>
+  	<cac:OrderReference>
+  		<cbc:ID>PO987654</cbc:ID>
+  		<cbc:SalesOrderID>SalesOrderID123456</cbc:SalesOrderID>
+  	</cac:OrderReference>
+  	<cac:BillingReference>
+  		<cac:InvoiceDocumentReference>
+  			<!-- Original invoice number -->
+  			<cbc:ID>123456789|23/07/2024|80|1.1|1234|12345</cbc:ID>
+  		</cac:InvoiceDocumentReference>
+  	</cac:BillingReference>	
+  	<cac:DespatchDocumentReference>
+  		<cbc:ID>DespatchDocument123456</cbc:ID>
+  	</cac:DespatchDocumentReference>
+  	<cac:AdditionalDocumentReference>
+  		<cbc:ID>1234</cbc:ID>
+  		<cbc:DocumentDescription>VRBL:GR:MARK</cbc:DocumentDescription>
+  	</cac:AdditionalDocumentReference>
+  	<cac:AdditionalDocumentReference>
+  		<cbc:ID>NA</cbc:ID>
+  		<cbc:DocumentDescription>VRBL:GR:INVOICEURL</cbc:DocumentDescription>
+  		<cac:Attachment>
+  			<cac:ExternalReference>
+  				<cbc:URI>http://www.example.com/index.html</cbc:URI>
+  			</cac:ExternalReference>
+  		</cac:Attachment>
+  	</cac:AdditionalDocumentReference>
+  	<cac:AccountingSupplierParty>
+  		<cac:Party>
+  			<!-- Technical Endpoint. Provides the PEPPOL ID of the sender -->
+  			<!-- use schemeID codes from https://docs.peppol.eu/poacc/billing/3.0/codelist/eas/ -->
+  			<cbc:EndpointID schemeID="9933">EL123456789</cbc:EndpointID>
+  			<cac:PartyName>
+  				<cbc:Name>SenderCompanyName</cbc:Name>
+  			</cac:PartyName>
+  			<cac:PostalAddress>
+  				<cbc:StreetName>Ioulianou 39</cbc:StreetName>
+  				<cbc:CityName>Athina</cbc:CityName>
+  				<cbc:PostalZone>104 33</cbc:PostalZone>					
+  				<cac:Country>
+  					<cbc:IdentificationCode>GR</cbc:IdentificationCode>
+  				</cac:Country>
+  			</cac:PostalAddress>
+  			<cac:PartyTaxScheme>
+  				<cbc:CompanyID>EL123456789</cbc:CompanyID>
+  				<cac:TaxScheme>
+  					<cbc:ID>VAT</cbc:ID>
+  				</cac:TaxScheme>
+  			</cac:PartyTaxScheme>
+  			<cac:PartyLegalEntity>
+  				<cbc:RegistrationName>SenderRegisteredName</cbc:RegistrationName>
+  			</cac:PartyLegalEntity>
+  			<cac:Contact>
+  				<cbc:Name>Customer service</cbc:Name>
+  			</cac:Contact>
+  		</cac:Party>
+  	</cac:AccountingSupplierParty>
+  	<cac:AccountingCustomerParty>
+  		<cac:Party>
+  			<!-- Technical Endpoint. Provides the PEPPOL ID of the receiver -->
+  			<!-- use schemeID codes from https://docs.peppol.eu/poacc/billing/3.0/codelist/eas/ -->
+  			<cbc:EndpointID schemeID="9933">EL987654321</cbc:EndpointID>
+  			<cac:PartyName>
+  				<cbc:Name>ReceiverCompanyName</cbc:Name>
+  			</cac:PartyName>
+  			<cac:PostalAddress>
+  				<cbc:StreetName>Leof. Mesogeion 554</cbc:StreetName>
+  				<cbc:CityName>Athina</cbc:CityName>
+  				<cbc:PostalZone>115 27</cbc:PostalZone>
+  				<cac:Country>
+  					<cbc:IdentificationCode>GR</cbc:IdentificationCode>
+  				</cac:Country>
+  			</cac:PostalAddress>
+  			<cac:PartyTaxScheme>
+  				<cbc:CompanyID>EL987654321</cbc:CompanyID>
+  				<cac:TaxScheme>
+  					<cbc:ID>VAT</cbc:ID>
+  				</cac:TaxScheme>
+  			</cac:PartyTaxScheme>
+  			<cac:PartyLegalEntity>
+  				<cbc:RegistrationName>ReceiverRegisteredName</cbc:RegistrationName>
+  			</cac:PartyLegalEntity>
+  			<cac:Contact>
+  				<cbc:Telephone>+30 00 9999 0000</cbc:Telephone>
+  				<cbc:ElectronicMail>name@buyer.com</cbc:ElectronicMail>
+  			</cac:Contact>
+  		</cac:Party>
+  	</cac:AccountingCustomerParty>
+  	<cac:Delivery>
+  		<cbc:ActualDeliveryDate>2024-07-12</cbc:ActualDeliveryDate>
+  		<cac:DeliveryLocation>
+  			<cac:Address>
+  				<cbc:StreetName>Leof. Panagioti Kanellopoulou 376</cbc:StreetName>
+  				<cbc:CityName>Athina</cbc:CityName>
+  				<cbc:PostalZone>115 25</cbc:PostalZone>			
+  				<cac:Country>
+  					<cbc:IdentificationCode>GR</cbc:IdentificationCode>
+  				</cac:Country>
+  			</cac:Address>
+  		</cac:DeliveryLocation>
+  		<cac:DeliveryParty>
+  			<cac:PartyName>
+  				<cbc:Name>DeliveryPartyName</cbc:Name>
+  			</cac:PartyName>
+  		</cac:DeliveryParty>
+  	</cac:Delivery>
+  	<cac:PaymentMeans>
+  		<cbc:PaymentMeansCode>30</cbc:PaymentMeansCode>
+  		<cac:PayeeFinancialAccount>
+  			<cbc:ID>GR123456789012365478</cbc:ID>
+  			<cbc:Name>BankAccountOwner</cbc:Name>
+  			<cac:FinancialInstitutionBranch>
+  				<cbc:ID>ERBKGRAAXXX</cbc:ID>
+  			</cac:FinancialInstitutionBranch>
+  		</cac:PayeeFinancialAccount>
+  	</cac:PaymentMeans>
+  	<cac:PaymentTerms>
+  		<cbc:Note>Up to 10.10.2024 without deduction</cbc:Note>
+  	</cac:PaymentTerms>
+  	<cac:AllowanceCharge>
+  		<cbc:ChargeIndicator>false</cbc:ChargeIndicator>
+  		<cbc:AllowanceChargeReason>Sample Description</cbc:AllowanceChargeReason>
+  		<cbc:Amount currencyID="EUR">100</cbc:Amount>
+  		<cac:TaxCategory>
+  		    <cbc:ID>S</cbc:ID>
+  		    <cbc:Percent>24</cbc:Percent>
+  			<cac:TaxScheme>
+  				<cbc:ID>VAT</cbc:ID>
+  			</cac:TaxScheme>
+  		</cac:TaxCategory>
+  	</cac:AllowanceCharge>
+  	<cac:AllowanceCharge>
+  		<cbc:ChargeIndicator>true</cbc:ChargeIndicator>
+  		<cbc:AllowanceChargeReason>Service charge</cbc:AllowanceChargeReason>
+  		<cbc:Amount currencyID="EUR">100</cbc:Amount>
+  		<cac:TaxCategory>
+  		    <cbc:ID>S</cbc:ID>
+  		    <cbc:Percent>24</cbc:Percent>
+  			<cac:TaxScheme>
+  				<cbc:ID>VAT</cbc:ID>
+  			</cac:TaxScheme>
+  		</cac:TaxCategory>
+  	</cac:AllowanceCharge>
+  	<cac:TaxTotal>
+  		<cbc:TaxAmount currencyID="EUR">96</cbc:TaxAmount>
+  		<cac:TaxSubtotal>
+  			<cbc:TaxableAmount currencyID="EUR">400</cbc:TaxableAmount>
+  			<cbc:TaxAmount currencyID="EUR">96</cbc:TaxAmount>
+  			<cac:TaxCategory>
+  				<cbc:ID>S</cbc:ID>
+  				<cbc:Percent>24</cbc:Percent>
+  				<cac:TaxScheme>
+  					<cbc:ID>VAT</cbc:ID>
+  				</cac:TaxScheme>
+  			</cac:TaxCategory>
+  		</cac:TaxSubtotal>
+  	</cac:TaxTotal>
+  	<cac:LegalMonetaryTotal>
+  		<cbc:LineExtensionAmount currencyID="EUR">400</cbc:LineExtensionAmount>
+  		<cbc:TaxExclusiveAmount currencyID="EUR">400</cbc:TaxExclusiveAmount>
+  		<cbc:TaxInclusiveAmount currencyID="EUR">496</cbc:TaxInclusiveAmount>
+  		<cbc:AllowanceTotalAmount currencyID="EUR">100</cbc:AllowanceTotalAmount>
+  		<cbc:ChargeTotalAmount currencyID="EUR">100</cbc:ChargeTotalAmount>		
+  		<cbc:PayableAmount currencyID="EUR">496</cbc:PayableAmount>
+  	</cac:LegalMonetaryTotal>
+  	<cac:InvoiceLine>
+  		<cbc:ID>000010</cbc:ID>
+  		<cbc:Note>ItemDecription</cbc:Note>
+  		<cbc:InvoicedQuantity unitCode="H87">3</cbc:InvoicedQuantity>
+  		<cbc:LineExtensionAmount currencyID="EUR">300</cbc:LineExtensionAmount>
+  		<cac:OrderLineReference>
+  			<cbc:LineID>000001</cbc:LineID>
+  		</cac:OrderLineReference>
+  		<cac:Item>
+  			<cbc:Name>ItemName</cbc:Name>
+  			<cac:SellersItemIdentification>
+  				<cbc:ID>730430</cbc:ID>
+  			</cac:SellersItemIdentification>
+  			<!-- GTIN13 of the item -->
+  			<cac:StandardItemIdentification>
+  				<cbc:ID schemeID="0160">1234567890123</cbc:ID>
+  			</cac:StandardItemIdentification>
+  			<cac:ClassifiedTaxCategory>
+  				<cbc:ID>S</cbc:ID>
+  				<cbc:Percent>24</cbc:Percent>
+  				<cac:TaxScheme>
+  					<cbc:ID>VAT</cbc:ID>
+  				</cac:TaxScheme>
+  			</cac:ClassifiedTaxCategory>
+  		</cac:Item>
+  		<cac:Price>
+  			<cbc:PriceAmount currencyID="EUR">100</cbc:PriceAmount>
+  			<cbc:BaseQuantity unitCode="H87">1</cbc:BaseQuantity>
+  		</cac:Price>
+  	</cac:InvoiceLine>
+  	<cac:InvoiceLine>
+  		<cbc:ID>000020</cbc:ID>
+  		<cbc:Note>ItemDecription</cbc:Note>
+  		<cbc:InvoicedQuantity unitCode="H87">2</cbc:InvoicedQuantity>
+  		<cbc:LineExtensionAmount currencyID="EUR">100</cbc:LineExtensionAmount>
+  		<cac:OrderLineReference>
+  			<cbc:LineID>000002</cbc:LineID>
+  		</cac:OrderLineReference>
+  		<cac:AllowanceCharge>
+  			<cbc:ChargeIndicator>false</cbc:ChargeIndicator>
+  			<cbc:AllowanceChargeReason>Sample Description</cbc:AllowanceChargeReason>
+  			<cbc:MultiplierFactorNumeric>10</cbc:MultiplierFactorNumeric>
+  			<cbc:Amount currencyID="EUR">10</cbc:Amount>
+  			<cbc:BaseAmount currencyID="EUR">100</cbc:BaseAmount>
+  		</cac:AllowanceCharge>
+  		<cac:AllowanceCharge>
+  			<cbc:ChargeIndicator>true</cbc:ChargeIndicator>
+  			<cbc:AllowanceChargeReason>Sample Description</cbc:AllowanceChargeReason>
+  			<cbc:MultiplierFactorNumeric>10</cbc:MultiplierFactorNumeric>
+  			<cbc:Amount currencyID="EUR">10</cbc:Amount>
+  			<cbc:BaseAmount currencyID="EUR">100</cbc:BaseAmount>
+  		</cac:AllowanceCharge>
+  		<cac:Item>
+  			<cbc:Name>ItemName</cbc:Name>
+  			<cac:SellersItemIdentification>
+  				<cbc:ID>730430</cbc:ID>
+  			</cac:SellersItemIdentification>
+  			<!-- GTIN13 of the item -->
+  			<cac:StandardItemIdentification>
+  				<cbc:ID schemeID="0160">3211234567890</cbc:ID>
+  			</cac:StandardItemIdentification>
+  			<cac:ClassifiedTaxCategory>
+  				<cbc:ID>S</cbc:ID>
+  				<cbc:Percent>24</cbc:Percent>
+  				<cac:TaxScheme>
+  					<cbc:ID>VAT</cbc:ID>
+  				</cac:TaxScheme>
+  			</cac:ClassifiedTaxCategory>
+  		</cac:Item>
+  		<cac:Price>
+  			<cbc:PriceAmount currencyID="EUR">50</cbc:PriceAmount>
+  			<cbc:BaseQuantity unitCode="H87">1</cbc:BaseQuantity>
+  		</cac:Price>
+  	</cac:InvoiceLine>
+  </ubl:Invoice>

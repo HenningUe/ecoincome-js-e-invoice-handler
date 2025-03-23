@@ -2,18 +2,22 @@ import * as xpath from "xpath-ts"
 import * as invoiceDefs from "../invoice-dtos.ts"
 import { InvoiceXmlReaderBase } from "./xml-reader-base.ts"
 
-export class InvoiceZugpferdXmlReader extends InvoiceXmlReaderBase {
+/**
+ * Reads an XRechnung UBL XML invoice.
+ *
+ * information about the XRechnung UBL XML format:
+ * - https://www.mustangproject.org/xrechnung/?lang=en
+ * - https://docs.peppol.eu/poacc/billing/3.0/2024-Q2/
+ * - https://portal3.gefeg.com/projectdata/invoice/deliverables/installed/publishingproject/xrechnung%202.0.0%20-%20(ab%2001.01.2021)/xrechnung_ubl_invoice_extension_v2.0.0_01.07.2020.scm/html/de/021.htm?https://portal3.gefeg.com/projectdata/invoice/deliverables/installed/publishingproject/xrechnung%202.0.0%20-%20(ab%2001.01.2021)/xrechnung_ubl_invoice_extension_v2.0.0_01.07.2020.scm/html/de/02301.htm
+ */
+export class InvoiceXRechnungUblXmlReader extends InvoiceXmlReaderBase {
   override xmlDocIsThisInvoiceType(): boolean {
-    //### ZUGFERD CrossIndustryInvoice
-    //<rsm:CrossIndustryInvoice
-    //        xmlns:a="urn:un:unece:uncefact:data:standard:QualifiedDataType:100"
-    //        xmlns:rsm="urn:un:unece:uncefact:data:standard:CrossIndustryInvoice:100"
-    //        xmlns:qdt="urn:un:unece:uncefact:data:standard:QualifiedDataType:10"
-    //        xmlns:ram="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:100"
-    //        xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    //        xmlns:udt="urn:un:unece:uncefact:data:standard:UnqualifiedDataType:100">
+    //### XRechnung UBL
+    // <ubl:Invoice xmlns:ubl="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"
+    // xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
+    // xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
     const nodes = xpath.select(
-      "//rsm:CrossIndustryInvoice[@xmlns:rsm='urn:un:unece:uncefact:data:standard:CrossIndustryInvoice:100']",
+      "//ubl:Invoice[@xmlns:ubl='urn:oasis:names:specification:ubl:schema:xsd:Invoice-2']",
       //@ts-ignore: TS2345
       this.xmlDoc,
     )
@@ -27,7 +31,7 @@ export class InvoiceZugpferdXmlReader extends InvoiceXmlReaderBase {
     // "<rsm:SupplyChainTradeTransaction>"
     //   "<ram:IncludedSupplyChainTradeLineItem>"
     const nodes = xpath.select(
-      "//rsm:SupplyChainTradeTransaction//ram:IncludedSupplyChainTradeLineItem",
+      "//ubl:Invoice/cac:InvoiceLine",
       //@ts-ignore: TS2345
       xmlDoc,
     )
@@ -49,8 +53,28 @@ export class InvoiceZugpferdXmlReader extends InvoiceXmlReaderBase {
     const get1stElAttr = InvoiceXmlReaderBase.get1stElAttr
     const get1stElMissingOk = InvoiceXmlReaderBase.get1stElMissingOk
 
+    // <cac:InvoiceLine>
+    //   <cbc:ID>1</cbc:ID>
+    //   <cbc:InvoicedQuantity unitCode="C62">1.00</cbc:InvoicedQuantity>
+    //   <cbc:LineExtensionAmount currencyID="EUR">1000.00</cbc:LineExtensionAmount>
+    //   <cac:Item>
+    //     <cbc:Name>Neumotor</cbc:Name>
+    //     <cac:ClassifiedTaxCategory>
+    //         <cbc:ID>S</cbc:ID>
+    //         <cbc:Percent>19.00</cbc:Percent>
+    //         <cac:TaxScheme>
+    //           <cbc:ID>VAT</cbc:ID>
+    //         </cac:TaxScheme>
+    //     </cac:ClassifiedTaxCategory>
+    //   </cac:Item>
+    //   <cac:Price>
+    //     <cbc:PriceAmount currencyID="EUR">1000.00</cbc:PriceAmount>
+    //   </cac:Price>
+    // </cac:InvoiceLine>
+    //
+    // For comparision: The same code for ZUGFeRD:
     // <ram:SpecifiedTradeProduct>
-    //   <ram:GlobalID schemeID="0160">4123456000014</ram:GlobalID>
+    //   <ram:GlobalID schemeID="0160">4123456000014</ram:GlobalID> //GTIN (Global article number)
     //   <ram:SellerAssignedID>ZS997</ram:SellerAssignedID>
     //   <ram:Name>Zitronensäure 100ml</ram:Name>
     //   <ram:ApplicableProductCharacteristic>
@@ -58,8 +82,8 @@ export class InvoiceZugpferdXmlReader extends InvoiceXmlReaderBase {
     //     <ram:Value>BO</ram:Value>
     //   </ram:ApplicableProductCharacteristic>
     // </ram:SpecifiedTradeProduct>
-    const tradePrdEl = get1stEl(node, "ram:SpecifiedTradeProduct")
-    const prdName = get1stElTxt(tradePrdEl, "ram:Name")
+    const tradePrdEl = get1stEl(node, "cac:Item")
+    const prdName = get1stElTxt(tradePrdEl, "cbc:Name")
     const prdGlobalID = get1stElTxtMissingOk(tradePrdEl, "ram:GlobalID")
     let schemeID = undefined
     if (prdGlobalID) {

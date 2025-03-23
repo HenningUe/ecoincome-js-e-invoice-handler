@@ -7,6 +7,8 @@ export abstract class InvoiceXmlReaderBase {
   constructor(public xmlDoc: Document) {}
   abstract readInvoiceFromXml(): invoiceDefs.Invoice
 
+  abstract xmlDocIsThisInvoiceType(): boolean
+
   protected static get1stEl(
     node: Node,
     tagName: string,
