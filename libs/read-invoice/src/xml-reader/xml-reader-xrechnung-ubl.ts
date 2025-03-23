@@ -55,20 +55,26 @@ export class InvoiceXRechnungUblXmlReader extends InvoiceXmlReaderBase {
 
     // <cac:InvoiceLine>
     //   <cbc:ID>1</cbc:ID>
-    //   <cbc:InvoicedQuantity unitCode="C62">1.00</cbc:InvoicedQuantity>
-    //   <cbc:LineExtensionAmount currencyID="EUR">1000.00</cbc:LineExtensionAmount>
+    //   <cbc:InvoicedQuantity unitCode="EA">10</cbc:InvoicedQuantity>
+    //   <cbc:LineExtensionAmount currencyID="GBP">1200.00</cbc:LineExtensionAmount>
+    //   <cac:OrderLineReference>
+    //       <cbc:LineID>1</cbc:LineID>
+    //   </cac:OrderLineReference>
     //   <cac:Item>
-    //     <cbc:Name>Neumotor</cbc:Name>
-    //     <cac:ClassifiedTaxCategory>
-    //         <cbc:ID>S</cbc:ID>
-    //         <cbc:Percent>19.00</cbc:Percent>
-    //         <cac:TaxScheme>
-    //           <cbc:ID>VAT</cbc:ID>
-    //         </cac:TaxScheme>
-    //     </cac:ClassifiedTaxCategory>
+    //       <cbc:Name>Test item, category Z</cbc:Name>
+    //       <cac:StandardItemIdentification>
+    //           <cbc:ID schemeID="0160">192387129837129873</cbc:ID>
+    //       </cac:StandardItemIdentification>
+    //       <cac:ClassifiedTaxCategory>
+    //           <cbc:ID>E</cbc:ID>
+    //           <cbc:Percent>0</cbc:Percent>
+    //           <cac:TaxScheme>
+    //               <cbc:ID>VAT</cbc:ID>
+    //           </cac:TaxScheme>
+    //       </cac:ClassifiedTaxCategory>
     //   </cac:Item>
     //   <cac:Price>
-    //     <cbc:PriceAmount currencyID="EUR">1000.00</cbc:PriceAmount>
+    //       <cbc:PriceAmount currencyID="GBP">120.00</cbc:PriceAmount>
     //   </cac:Price>
     // </cac:InvoiceLine>
     //
@@ -84,10 +90,10 @@ export class InvoiceXRechnungUblXmlReader extends InvoiceXmlReaderBase {
     // </ram:SpecifiedTradeProduct>
     const tradePrdEl = get1stEl(node, "cac:Item")
     const prdName = get1stElTxt(tradePrdEl, "cbc:Name")
-    const prdGlobalID = get1stElTxtMissingOk(tradePrdEl, "ram:GlobalID")
+    const stdItemID = get1stElTxtMissingOk(tradePrdEl, "cac:StandardItemIdentification/cbc:ID")
     let schemeID = undefined
-    if (prdGlobalID) {
-      schemeID = get1stElAttr(tradePrdEl, "ram:GlobalID", "schemeID")
+    if (stdItemID) {
+      schemeID = get1stElAttr(tradePrdEl, "cac:StandardItemIdentification/cbc:ID", "schemeID")
     }
     const prdSellerAssignedID = get1stElTxtMissingOk(tradePrdEl, "ram:SellerAssignedID")
     const prdDescription = get1stElTxtMissingOk(tradePrdEl, "ram:Description")
@@ -109,10 +115,10 @@ export class InvoiceXRechnungUblXmlReader extends InvoiceXmlReaderBase {
         value: prdCharValue,
       })
     }
+    const globPrdId = new invoiceDefs.GlobalProductIdentifier(stdItemID, schemeID)
     const tradePrd = new invoiceDefs.TradeProduct({
       name: prdName,
-      globalId: prdGlobalID,
-      globalIdSchemeId: schemeID,
+      globalProductId: globPrdId,
       sellerAssignedId: prdSellerAssignedID,
       description: prdDescription,
       applicableProductCharacteristic: applPrdCharacteristic,

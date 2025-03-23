@@ -61,7 +61,7 @@ export class InvoiceZugpferdXmlReader extends InvoiceXmlReaderBase {
     const tradePrdEl = get1stEl(node, "ram:SpecifiedTradeProduct")
     const prdName = get1stElTxt(tradePrdEl, "ram:Name")
     const prdGlobalID = get1stElTxtMissingOk(tradePrdEl, "ram:GlobalID")
-    let schemeID = undefined
+    let schemeID: string | undefined = undefined
     if (prdGlobalID) {
       schemeID = get1stElAttr(tradePrdEl, "ram:GlobalID", "schemeID")
     }
@@ -85,10 +85,10 @@ export class InvoiceZugpferdXmlReader extends InvoiceXmlReaderBase {
         value: prdCharValue,
       })
     }
+    const globPrdId = new invoiceDefs.GlobalProductIdentifier(prdGlobalID, schemeID)
     const tradePrd = new invoiceDefs.TradeProduct({
       name: prdName,
-      globalId: prdGlobalID,
-      globalIdSchemeId: schemeID,
+      globalProductId: globPrdId,
       sellerAssignedId: prdSellerAssignedID,
       description: prdDescription,
       applicableProductCharacteristic: applPrdCharacteristic,
