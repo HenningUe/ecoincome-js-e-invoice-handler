@@ -81,11 +81,16 @@ export interface TradeProductParams {
 }
 
 export class TradeProduct implements TradeProductParams {
+  // Product name
   name: string
-  globalProductId?: GlobalProductIdentifier | undefined
-  sellerAssignedId?: string | undefined
-  buyerAssignedId?: string | undefined
+  // Product description
   description?: string | undefined
+  // Globally harmonized Product identification number
+  globalProductId?: GlobalProductIdentifier | undefined
+  // Proprietary Product identification number of seller
+  sellerAssignedId?: string | undefined
+  // Proprietary Product identification number of buyer
+  buyerAssignedId?: string | undefined
   applicableProductCharacteristic?: ApplicableProductCharacteristic | undefined
 
   constructor(params: TradeProductParams) {
@@ -118,11 +123,13 @@ export class TradeDelivery {
 }
 
 export interface QuantityElementParams {
+  //Standarized code of unit
+  //see https://www.truugo.com/ubl/2.1/cl_unitofmeasure/
   unitCode?: string
   quantity?: number
 }
 
-export class QuantityElement {
+export class QuantityElement implements QuantityElementParams {
   constructor(params: QuantityElementParams) {
     Object.assign(this, params)
   }

@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ubl:Invoice xmlns:ubl="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2 
+http://docs.oasis-open.org/ubl/os-UBL-2.1/xsd/maindoc/UBL-Invoice-2.1.xsd">
+	<cbc:CustomizationID>urn:cen.eu:en16931:2017#compliant#urn:xeinkauf.de:kosit:xrechnung_3.0</cbc:CustomizationID>
+	<cbc:ProfileID>Kontext des Geschäftsprozesses (BT-23)</cbc:ProfileID>
+	<cbc:ID>Rechnungsnummer (BT-1)</cbc:ID>
+	<cbc:IssueDate>Rechnungsdatum (BT-2)</cbc:IssueDate>
+	<cbc:DueDate>Fälligkeitsdatum (BT-9)</cbc:DueDate>
+	<cbc:InvoiceTypeCode>Code für den Rechnungstyp (BT-3)</cbc:InvoiceTypeCode>
+	<cbc:Note>Kommentar- / Bemerkungsfeld (BT-22)</cbc:Note>
+	<cbc:DocumentCurrencyCode>Währung (BT-5)</cbc:DocumentCurrencyCode>
+	<cbc:AccountingCost>Kontierungsinformation (z. B. Bahnstelle)(BT-19)</cbc:AccountingCost>
+	<cbc:BuyerReference>Leitweg-ID (DB = 992-90009-96)(BT-10)</cbc:BuyerReference>
+	<cac:InvoicePeriod>
+		<cbc:StartDate>Beginn Abrechnungszeitraum (BT-73)</cbc:StartDate>
+		<cbc:EndDate>Ende Abrechnungszeitraum (BT-74)</cbc:EndDate>
+	</cac:InvoicePeriod>
+	<cac:OrderReference>
+		<cbc:ID>Bestellnummer (BT-13)</cbc:ID>
+		<cbc:SalesOrderID>Auftragsnummer (BT-14)</cbc:SalesOrderID>
+	</cac:OrderReference>
+	<cac:BillingReference>
+		<cac:InvoiceDocumentReference>
+			<cbc:ID>Vorausgegangene Rechnungsnummer (BT-25)</cbc:ID>
+			<cbc:IssueDate>Datum der vorausgegangenen Rechnung (BT-26)</cbc:IssueDate>
+		</cac:InvoiceDocumentReference>
+	</cac:BillingReference>
+	<cac:DespatchDocumentReference>
+		<cbc:ID>Lieferscheinnummer (BT-16)</cbc:ID>
+	</cac:DespatchDocumentReference>
+	<cac:OriginatorDocumentReference>
+		<cbc:ID>Vergabenummer (BT-17)</cbc:ID>
+	</cac:OriginatorDocumentReference>
+	<cac:ContractDocumentReference>
+		<cbc:ID>Rahmenvertragsnummer (BT-12)</cbc:ID>
+	</cac:ContractDocumentReference>
+	<cac:AdditionalDocumentReference>
+		<cbc:ID>Objektkennung (BT-18)</cbc:ID>
+		<cbc:DocumentTypeCode>130</cbc:DocumentTypeCode>
+	</cac:AdditionalDocumentReference>
+	<cac:AdditionalDocumentReference>
+		<cbc:ID>Dateiname des eingebetteten Anhangs (BT-122)</cbc:ID>
+		<cbc:DocumentType>Beschreibung des Anhangs (BT-123)</cbc:DocumentType>
+		<cac:Attachment>
+			<cbc:EmbeddedDocumentBinaryObject mimeCode="application/pdf" (BT-125-1 hier beispielhaft PDF-Anhang) filename="Musteranhang.pdf" (BT-125-2 Dateiname des Anahngs)> ...Beispielhafte Darstellung eines eingebetteten Anhangs.... m9udE5hbWUgL0hlbHZldGljYQ0AKL0l0YWxpY0FuZ2xlIDANCi9TdGVtViAxMDUNCj4+DQplbmRv YmoNCjMgMCBvYmoNCi9XaW5BbnNpRW5jb2RpbmcNCmVuZG9iag0KNCAwIG9iag0KPDwNCiVEZXZ0 eXBlIEhQTEo0ICAgIEZvbnQgSEVMVkUgICAgbm9ybWFsIExhbmcgREUNCi9UeXBlIC9Gb250DQov U3VidHlwZSAvVHlwZTENCi9CYXNlRm9udCAvSGVsdmV0arWNhDQovTmFtZSAvRjAwMQ0KL0VuY29k aW5nIDMgMCBSDQovRmlyc3RDaGFyIDMyDQovTGFzdENoYXIgMjU1DQolQ2hhcndpZHRoIHZhbHVl cyBmcm9tIEhQTEo0IEhFTFZFIDA4MCBub3JtYWwNCi9XaWR0aHMNClsgMjc4IDMzMSA1MDAgNjMx IDYzMSAxMDAwIDc1NiAzMzEgMzMxIDMzMSA2MzEgMTAwMCAzMzEgMzMxIDMzMSAzMzEgNjMxIDYz MSA2MzEgNjMxIDYzMSA2MzEgNjMxIDYzMSA2MzEgNjMxIDMzMSAzMzEgMTAwMCAxMDAwIDEwMDAg NTE5IDEwMDAgNzQ0IDYzMSA3MDYgNzI1IDU3NSA1NETYgNzQ0IDcyNSAyNzUgNTU2IDY2OSA1Mzgg OTA2IDcyNSA3NTYgNTk0IDc3NSA2NTAgNjUwIDYzMSA3MjUgNzI1IDEwMDAgNzI1IDY4OCA2MTMg MzMxIDMzMQ0KIDMzMSA1MDAgNTAwIDMzMSA1MzggNTc1IDUzOCA1NzUgNTM4IDM2OSA1NzUgNTc1 IDI0NCAyNDQgNTM4IDI0NCA4NjkgNTc1IDU3NSA1NzUgNTc1IDM1MCA1MDAgMzY5IDU3NSA1NTYg ODY5IDU1NiA1NTYgNDgxIDQ0NCA1MDAgNDQ0IDEwMDAgMCA2MzEgMCAwIDAgMCAwIDAgMCAwIDAg MCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDMzMSA2MzEgNjMx IDYzMSA2MzEgNTAwIDYzMSAyMjUgNTAwIDQwNiA1NTYNCiAxMDAwIDAgNTAwIDIyNSAyMjUgMTAw MCAzODggMzg4IDIyNSA1NTYgNjMxIDMzMSAyMjUgMzg4IDQwNiA1NTYgMTAwMCAxMDAwIDEwMDAg NTE5IDc0NCA3NDQgNzQ0IDc0NCA3NDQgNzQ0IDk4MSA3MDYgNTc1IDU3NSA1NzUgNTc1IDI3NSAy< cbc:EmbeddedDocumentBinaryObject>
+		</cac:Attachment>
+	</cac:AdditionalDocumentReference>
+	<cac:ProjectReference>
+		<cbc:ID>Projektnummer (BT-11)</cbc:ID>
+	</cac:ProjectReference>
+	<cac:AccountingSupplierParty>
+		<cac:Party>
+			<cbc:EndpointID schemeID="EM">Elektronische Adresse (E-Mail) des Verkäufers (BT-34)</cbc:EndpointID>
+			<cac:PartyIdentification>
+				<cbc:ID>Lieferanten- / Kreditorennummer bei der DB (BT-29)</cbc:ID>
+			</cac:PartyIdentification>
+			<cac:PartyName>
+				<cbc:Name>Abweichender Handelsname des Verkäufers (BT-28)</cbc:Name>
+			</cac:PartyName>
+			<cac:PostalAddress>
+				<cbc:StreetName>Straße u. Hausnummer / Postfach (BT-35)</cbc:StreetName>
+				<cbc:AdditionalStreetName>Zusätzliche Adresszeile (BT-36)</cbc:AdditionalStreetName>
+				<cbc:CityName>Ort (BT-37)</cbc:CityName>
+				<cbc:PostalZone>PLZ (BT-38)</cbc:PostalZone>
+				<cac:AddressLine>
+					<cbc:Line>Weitere zusätzliche Adresszeile (BT-162)</cbc:Line>
+				</cac:AddressLine>
+				<cac:Country>
+					<cbc:IdentificationCode>Ländercode (BT-40)</cbc:IdentificationCode>
+				</cac:Country>
+			</cac:PostalAddress>
+			<cac:PartyTaxScheme>
+				<cbc:CompanyID>Umsatzsteuer-ID vom Verkäufer (BT-31)</cbc:CompanyID>
+				<cac:TaxScheme>
+					<cbc:ID>VAT</cbc:ID>
+				</cac:TaxScheme>
+			</cac:PartyTaxScheme>
+			<cac:PartyLegalEntity>
+				<cbc:RegistrationName>Vollständiger Firmenname des Verkäufers (BT-27)</cbc:RegistrationName>
+				<cbc:CompanyID>Handelsregisternummer des Verkäufers(BT-30)</cbc:CompanyID>
+				<cbc:CompanyLegalForm>Weitere rechtliche Informationen (BT-33)</cbc:CompanyLegalForm>
+			</cac:PartyLegalEntity>
+			<cac:Contact>
+				<cbc:Name>Name des Ansprechpartners vom Verkäufer (BT-41)</cbc:Name>
+				<cbc:Telephone>Telefonnummer des Ansprechpartners (BT-42)</cbc:Telephone>
+				<cbc:ElectronicMail>E-Mailadresse des Anspechpartners (BT-43)</cbc:ElectronicMail>
+			</cac:Contact>
+		</cac:Party>
+	</cac:AccountingSupplierParty>
+	<cac:AccountingCustomerParty>
+		<cac:Party>
+			<cbc:EndpointID schemeID="EM">E-Mailadresse zur Rechnungsübermittlung (BT-49)</cbc:EndpointID>
+			<cac:PartyIdentification>
+				<cbc:ID>Debitorennummer / Kundennummer (BT-46)</cbc:ID>
+			</cac:PartyIdentification>
+			<cac:PartyName>
+				<cbc:Name>Abweichender Handelsname des Käufers (BT-45)</cbc:Name>
+			</cac:PartyName>
+			<cac:PostalAddress>
+				<cbc:StreetName>Straße u. Hausnummer / Postfach (BT-50)</cbc:StreetName>
+				<cbc:AdditionalStreetName>Zusätzliche Adresszeile (BT-51)</cbc:AdditionalStreetName>
+				<cbc:CityName>Ort (BT-52)</cbc:CityName>
+				<cbc:PostalZone>PLZ (BT-53)</cbc:PostalZone>
+				<cac:AddressLine>
+					<cbc:Line>Weitere zusätzliche Adresszeile (BT-163)</cbc:Line>
+				</cac:AddressLine>
+				<cac:Country>
+					<cbc:IdentificationCode>Ländercode (BT-55)</cbc:IdentificationCode>
+				</cac:Country>
+			</cac:PostalAddress>
+			<cac:PartyTaxScheme>
+				<cbc:CompanyID>Umsatzsteuer-ID des Käufers (BT-48)</cbc:CompanyID>
+				<cac:TaxScheme>
+					<cbc:ID>VAT</cbc:ID>
+				</cac:TaxScheme>
+			</cac:PartyTaxScheme>
+			<cac:PartyLegalEntity>
+				<cbc:RegistrationName>Vollständiger Firmenname des Rechnungsempfängers (BT-44)</cbc:RegistrationName>
+				<cbc:CompanyID>Handelsregisternummer des Käufers (BT-47)</cbc:CompanyID>
+			</cac:PartyLegalEntity>
+			<cac:Contact>
+				<cbc:Name>Name des Auftraggebers / Anforderers (BT-56)</cbc:Name>
+				<cbc:Telephone>Telefonnummer des Auftraggebers / Anforderers (BT-57)</cbc:Telephone>
+				<cbc:ElectronicMail>E-Mailadresse des Auftraggebers / Anforderers (BT-58)</cbc:ElectronicMail>
+			</cac:Contact>
+		</cac:Party>
+	</cac:AccountingCustomerParty>
+	<cac:PayeeParty>
+		<cac:PartyIdentification>
+			<cbc:ID>IBAN des abweichenden Zahlungsempfängers (BT-60)</cbc:ID>
+		</cac:PartyIdentification>
+		<cac:PartyName>
+			<cbc:Name>Name des abweichenden Zahlungsempfängers (BT-59)</cbc:Name>
+		</cac:PartyName>
+		<cac:PartyLegalEntity>
+			<cbc:CompanyID>Handelsregisternr. des abweichenden Zahlungsempfängers (BT-61)</cbc:CompanyID>
+		</cac:PartyLegalEntity>
+	</cac:PayeeParty>
+	<cac:TaxRepresentativeParty>
+		<cac:PartyName>
+			<cbc:Name>Vollständiger Name des steuerlichen Vertreters des Verkäufers (BT-62)</cbc:Name>
+		</cac:PartyName>
+		<cac:PostalAddress>
+			<cbc:StreetName>Straße u. Hausnummer / Postfach (BT-64)</cbc:StreetName>
+			<cbc:AdditionalStreetName>Zusätzliche Adresszeile (BT-65)</cbc:AdditionalStreetName>
+			<cbc:CityName>Ort (BT-66)</cbc:CityName>
+			<cbc:PostalZone>PLZ (BT-67)</cbc:PostalZone>
+			<cac:AddressLine>
+				<cbc:Line>Weitere zusätzliche Adresszeile (BT-164)</cbc:Line>
+			</cac:AddressLine>
+			<cac:Country>
+				<cbc:IdentificationCode>Ländercode (BT-69)</cbc:IdentificationCode>
+			</cac:Country>
+		</cac:PostalAddress>
+		<cac:PartyTaxScheme>
+			<cbc:CompanyID>Umsatzsteuer-ID des steuerlichen Vertreters (BT-63)</cbc:CompanyID>
+			<cac:TaxScheme>
+				<cbc:ID>VAT</cbc:ID>
+			</cac:TaxScheme>
+		</cac:PartyTaxScheme>
+	</cac:TaxRepresentativeParty>
+	<cac:Delivery>
+		<cbc:ActualDeliveryDate>Lieferdatum (BT-72)</cbc:ActualDeliveryDate>
+		<cac:DeliveryLocation>
+			<cbc:ID>Kennung des Lieferorts (BT-71)</cbc:ID>
+			<cac:Address>
+				<cbc:StreetName>Straße u. Hausnummer / Postfach (BT-75)</cbc:StreetName>
+				<cbc:AdditionalStreetName>Zusätzliche Adresszeile (BT-76)</cbc:AdditionalStreetName>
+				<cbc:CityName>Ort (BT-77)</cbc:CityName>
+				<cbc:PostalZone>PLZ (BT-78)</cbc:PostalZone>
+				<cac:AddressLine>
+					<cbc:Line>Weitere zusätzliche Adresszeile (BT-165)</cbc:Line>
+				</cac:AddressLine>
+				<cac:Country>
+					<cbc:IdentificationCode>Ländercode (BT-80)</cbc:IdentificationCode>
+				</cac:Country>
+			</cac:Address>
+		</cac:DeliveryLocation>
+		<cac:DeliveryParty>
+			<cac:PartyName>
+				<cbc:Name>Vollständiger Firmenname des Waren- bzw. Leistungsempfängers (BT-70)</cbc:Name>
+			</cac:PartyName>
+		</cac:DeliveryParty>
+	</cac:Delivery>
+	<cac:PaymentMeans>
+		<cbc:PaymentMeansCode>Code für den Zahlweg (BT-81)</cbc:PaymentMeansCode>
+		<cbc:InstructionNote>Zahlweg zusätzlich als Textangabe (BT-82)</cbc:InstructionNote>
+		<cbc:PaymentID>Verwendungszweck (BT-83)</cbc:PaymentID>
+		<cac:PayeeFinancialAccount>
+			<cbc:ID>IBAN (BT-84)</cbc:ID>
+			<cbc:Name>Vollständiger Firmenname des Kontoinhabers (BT-85)</cbc:Name>
+			<cac:FinancialInstitutionBranch>
+				<cbc:ID>BIC / SWIFT (BT-86)</cbc:ID>
+			</cac:FinancialInstitutionBranch>
+		</cac:PayeeFinancialAccount>
+	</cac:PaymentMeans>
+	<cac:PaymentTerms>
+		<cbc:Note>
+ Zahlungsbedingungen (BT-20) 
+z. B.:
+ #SKONTO#TAGE=21#PROZENT=3.00#
+ #SKONTO#TAGE=30#PROZENT=0.00#
+ </cbc:Note>
+	</cac:PaymentTerms>
+	<cac:TaxTotal>
+		<cbc:TaxAmount currencyID="EUR">Betrag Umsatzsteuer (BT-117)</cbc:TaxAmount>
+		<cac:TaxSubtotal>
+			<cbc:TaxableAmount currencyID="EUR">Basisbetrag für die Umsatzsteuerberechnung (BT-116)</cbc:TaxableAmount>
+			<cbc:TaxAmount currencyID="EUR">Betrag Umsatzsteuer (BT-117)</cbc:TaxAmount>
+			<cac:TaxCategory>
+				<cbc:ID>Code der Umsatzsteuerkategorie (BT-118)</cbc:ID>
+				<cbc:Percent>Umsatzsteuersatz in Prozent (BT-119)</cbc:Percent>
+				<cbc:TaxExemptionReason>Grund für Ausnahme von Umsatzsteuerpflicht, z.B. Reverse Charge (BT-120)
+ </cbc:TaxExemptionReason>
+				<cac:TaxScheme>
+					<cbc:ID>VAT</cbc:ID>
+				</cac:TaxScheme>
+			</cac:TaxCategory>
+		</cac:TaxSubtotal>
+	</cac:TaxTotal>
+	<cac:LegalMonetaryTotal>
+		<cbc:LineExtensionAmount currencyID="EUR">Summe aller Positionen (netto) (BT-106)</cbc:LineExtensionAmount>
+		<cbc:TaxExclusiveAmount currencyID="EUR">Gesamtsumme (netto) (BT-109)</cbc:TaxExclusiveAmount>
+		<cbc:TaxInclusiveAmount currencyID="EUR">Gesamtsumme (brutto) (BT-112)</cbc:TaxInclusiveAmount>
+		<cbc:PrepaidAmount currencyID="EUR">Gezahlter Betrag (BT-113)</cbc:PrepaidAmount>
+		<cbc:PayableAmount currencyID="EUR">Fälliger Betrag (BT-115)</cbc:PayableAmount>
+	</cac:LegalMonetaryTotal>
+	<cac:InvoiceLine>
+		<cbc:ID>Positionsnummer (BT-126)</cbc:ID>
+		<cbc:Note>Bemerkungs- / Kommentarfeld auf Positionsebene (BT-127)</cbc:Note>
+		<cbc:InvoicedQuantity unitCode="Mengeneinheit (BT-130)">Menge (BT-129)</cbc:InvoicedQuantity>
+		<cbc:LineExtensionAmount currencyID="EUR">Positionsgesamtpreis (netto) (BT-131)</cbc:LineExtensionAmount>
+		<cbc:AccountingCost>Kontierungsinformation (z. B. Bahnstelle) auf Positionsebene (BT-133)</cbc:AccountingCost>
+		<cac:InvoicePeriod>
+			<cbc:StartDate>Beginn Abrechnungszeitraum auf Positionsebene (BT-134)</cbc:StartDate>
+			<cbc:EndDate>Ende Abrechnungszeitraum auf Positionsebene (BT-135)</cbc:EndDate>
+		</cac:InvoicePeriod>
+		<cac:OrderLineReference>
+			<cbc:LineID>Bestellpositionsnummer DB (BT-132)</cbc:LineID>
+		</cac:OrderLineReference>
+		<cac:DocumentReference>
+			<cbc:ID>Objektkennung auf Positionsebene (BT-128)</cbc:ID>
+			<cbc:DocumentTypeCode>130</cbc:DocumentTypeCode>
+		</cac:DocumentReference>
+		<cac:Item>
+			<cbc:Description>Positionsbeschreibung (BT-154)</cbc:Description>
+			<cbc:Name>Positionsbezeichnung (BT-153)</cbc:Name>
+			<cac:BuyersItemIdentification>
+				<cbc:ID>Artikelnummer des Käufers (BT-156)</cbc:ID>
+			</cac:BuyersItemIdentification>
+			<cac:SellersItemIdentification>
+				<cbc:ID>Artikelnummer des Verkäufers (BT-155)</cbc:ID>
+			</cac:SellersItemIdentification>
+			<cac:StandardItemIdentification>
+				<cbc:ID schemeID="0197">Artikelnummer laut Schema (BT-157)</cbc:ID>
+			</cac:StandardItemIdentification>
+			<cac:OriginCountry>
+				<cbc:IdentificationCode>Ursprungsland des Artikels (BT-159)</cbc:IdentificationCode>
+			</cac:OriginCountry>
+			<cac:CommodityClassification>
+				<cbc:ItemClassificationCode listID="Code des Schemas (BT-158-1)">Kennung der Artikelklassifizierung (BT-158)
+ </cbc:ItemClassificationCode>
+			</cac:CommodityClassification>
+			<cac:ClassifiedTaxCategory>
+				<cbc:ID>Code der Umsatzsteuerkategorie (BT-151)</cbc:ID>
+				<cbc:Percent>Umsatzsteuersatz in Prozent (BT-152)</cbc:Percent>
+				<cac:TaxScheme>
+					<cbc:ID>VAT</cbc:ID>
+				</cac:TaxScheme>
+			</cac:ClassifiedTaxCategory>
+			<cac:AdditionalItemProperty>
+				<cbc:Name>Zusatzinformationen Eigenschaft (BT-160)</cbc:Name>
+				<cbc:Value>Zusatzinformationen Wert (BT-161)</cbc:Value>
+			</cac:AdditionalItemProperty>
+		</cac:Item>
+		<cac:Price>
+			<cbc:PriceAmount currencyID="EUR">Preis pro Einheit (netto), nach Rabatt (BT-146)</cbc:PriceAmount>
+			<cbc:BaseQuantity unitCode="Mengeneinheit (BT-150)">Preisbasis Menge (BT-149)</cbc:BaseQuantity>
+		</cac:Price>
+	</cac:InvoiceLine>
+</ubl:Invoice>

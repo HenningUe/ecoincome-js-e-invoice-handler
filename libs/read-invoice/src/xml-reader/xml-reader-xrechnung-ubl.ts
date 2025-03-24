@@ -46,13 +46,14 @@ export class InvoiceXRechnungUblXmlReader extends InvoiceXmlReaderBase {
     return new invoiceDefs.Invoice(tradeTransaction)
   }
 
-  private readSingleTradeLineItem(node: Node): invoiceDefs.TradeLineItem {
+  private readSingleTradeLineItem(invoiceLine: Node): invoiceDefs.TradeLineItem {
     const get1stEl = InvoiceXmlReaderBase.get1stEl
     const get1stElTxt = InvoiceXmlReaderBase.get1stElTxt
     const get1stElTxtMissingOk = InvoiceXmlReaderBase.get1stElTxtMissingOk
     const get1stElAttr = InvoiceXmlReaderBase.get1stElAttr
     const get1stElMissingOk = InvoiceXmlReaderBase.get1stElMissingOk
 
+    // XRechung UBL standard
     // <cac:InvoiceLine>
     //   <cbc:ID>1</cbc:ID>
     //   <cbc:InvoicedQuantity unitCode="EA">10</cbc:InvoicedQuantity>
@@ -62,6 +63,13 @@ export class InvoiceXRechnungUblXmlReader extends InvoiceXmlReaderBase {
     //   </cac:OrderLineReference>
     //   <cac:Item>
     //       <cbc:Name>Test item, category Z</cbc:Name>
+    //      <cbc:Description>Positionsbeschreibung (BT-154)</cbc:Description>
+    //       <cac:BuyersItemIdentification>
+    //         <cbc:ID>Artikelnummer des Käufers (BT-156)</cbc:ID>
+    //       </cac:BuyersItemIdentification>
+    //       <cac:SellersItemIdentification>
+    //         <cbc:ID>Artikelnummer des Verkäufers (BT-155)</cbc:ID>
+    //       </cac:SellersItemIdentification>
     //       <cac:StandardItemIdentification>
     //           <cbc:ID schemeID="0160">192387129837129873</cbc:ID>
     //       </cac:StandardItemIdentification>
@@ -88,15 +96,22 @@ export class InvoiceXRechnungUblXmlReader extends InvoiceXmlReaderBase {
     //     <ram:Value>BO</ram:Value>
     //   </ram:ApplicableProductCharacteristic>
     // </ram:SpecifiedTradeProduct>
-    const tradePrdEl = get1stEl(node, "cac:Item")
+    const tradePrdEl = get1stEl(invoiceLine, "cac:Item")
     const prdName = get1stElTxt(tradePrdEl, "cbc:Name")
+    const prdDescription = get1stElTxtMissingOk(tradePrdEl, "cbc:Description")
     const stdItemID = get1stElTxtMissingOk(tradePrdEl, "cac:StandardItemIdentification/cbc:ID")
     let schemeID = undefined
     if (stdItemID) {
       schemeID = get1stElAttr(tradePrdEl, "cac:StandardItemIdentification/cbc:ID", "schemeID")
     }
-    const prdSellerAssignedID = get1stElTxtMissingOk(tradePrdEl, "ram:SellerAssignedID")
-    const prdDescription = get1stElTxtMissingOk(tradePrdEl, "ram:Description")
+    const prdSellerAssignedID = get1stElTxtMissingOk(
+      tradePrdEl,
+      "cac:SellersItemIdentification/cbc:ID",
+    )
+    const prdBuyerAssignedID = get1stElTxtMissingOk(
+      tradePrdEl,
+      "cac:BuyersItemIdentification/cbc:ID",
+    )
 
     let applPrdCharacteristic = undefined
     const applPrdCharactEl = get1stElMissingOk(
@@ -119,21 +134,25 @@ export class InvoiceXRechnungUblXmlReader extends InvoiceXmlReaderBase {
     const tradePrd = new invoiceDefs.TradeProduct({
       name: prdName,
       globalProductId: globPrdId,
-      sellerAssignedId: prdSellerAssignedID,
       description: prdDescription,
+      sellerAssignedId: prdSellerAssignedID,
+      buyerAssignedId: prdBuyerAssignedID,
       applicableProductCharacteristic: applPrdCharacteristic,
     })
 
+    // XRechung UBL standard
+    // <cbc:InvoicedQuantity unitCode="EA">10</cbc:InvoicedQuantity>
+    //
+    // For comparision: The same code for ZUGFeRD:
     // <ram:SpecifiedLineTradeDelivery>
     //   <ram:BilledQuantity unitCode="XBC">15.0000</ram:BilledQuantity>
     //   <ram:PackageQuantity unitCode="XBO">20.0000</ram:PackageQuantity>
     // </ram:SpecifiedLineTradeDelivery>
-    const tradeDeliveryEl = get1stEl(node, "ram:SpecifiedLineTradeDelivery")
-    const billedQuantityTxt = get1stElTxt(tradeDeliveryEl, "ram:BilledQuantity")
+    const billedQuantityTxt = get1stElTxt(invoiceLine, "cbc:InvoicedQuantity")
     const billedQuantityNum = parseFloat(billedQuantityTxt)
     const billedQuantityUnitCode = get1stElAttr(
-      tradeDeliveryEl,
-      "ram:BilledQuantity",
+      invoiceLine,
+      "cbc:InvoicedQuantity",
       "unitCode",
     )
     const billedQuantity = new invoiceDefs.QuantityElement({
@@ -141,6 +160,7 @@ export class InvoiceXRechnungUblXmlReader extends InvoiceXmlReaderBase {
       quantity: billedQuantityNum,
     })
 
+    const tradeDeliveryEl = get1stEl(invoiceLine, "ram:SpecifiedLineTradeDelivery")
     const packageQuantityTxt = get1stElTxtMissingOk(
       tradeDeliveryEl,
       "ram:PackageQuantity",
