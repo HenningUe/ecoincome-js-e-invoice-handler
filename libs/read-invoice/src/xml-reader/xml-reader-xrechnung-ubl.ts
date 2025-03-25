@@ -6,9 +6,12 @@ import { InvoiceXmlReaderBase } from "./xml-reader-base.ts"
  * Reads an XRechnung UBL XML invoice.
  *
  * information about the XRechnung UBL XML format:
+ * - https://schemas.liquid-technologies.com/OASIS/UBL/2.0/?page=invoicetypecode.html
  * - https://www.mustangproject.org/xrechnung/?lang=en
  * - https://docs.peppol.eu/poacc/billing/3.0/2024-Q2/
  * - https://portal3.gefeg.com/projectdata/invoice/deliverables/installed/publishingproject/xrechnung%202.0.0%20-%20(ab%2001.01.2021)/xrechnung_ubl_invoice_extension_v2.0.0_01.07.2020.scm/html/de/021.htm?https://portal3.gefeg.com/projectdata/invoice/deliverables/installed/publishingproject/xrechnung%202.0.0%20-%20(ab%2001.01.2021)/xrechnung_ubl_invoice_extension_v2.0.0_01.07.2020.scm/html/de/02301.htm
+ * interactive illustration of the XRechnung UBL XML format:
+ * - https://www.erechnung.gv.at/erb/info_channel_explanation?ubl
  */
 export class InvoiceXRechnungUblXmlReader extends InvoiceXmlReaderBase {
   override xmlDocIsThisInvoiceType(): boolean {
@@ -27,9 +30,8 @@ export class InvoiceXRechnungUblXmlReader extends InvoiceXmlReaderBase {
 
   readInvoiceFromXml(): invoiceDefs.Invoice {
     const xmlDoc: Document = this.xmlDoc
-    // "<rsm:CrossIndustryInvoice>"
-    // "<rsm:SupplyChainTradeTransaction>"
-    //   "<ram:IncludedSupplyChainTradeLineItem>"
+    // "<ubl:Invoice>"
+    //   "<cac:InvoiceLine>"
     const nodes = xpath.select(
       "//ubl:Invoice/cac:InvoiceLine",
       //@ts-ignore: TS2345
@@ -96,6 +98,9 @@ export class InvoiceXRechnungUblXmlReader extends InvoiceXmlReaderBase {
     //     <ram:Value>BO</ram:Value>
     //   </ram:ApplicableProductCharacteristic>
     // </ram:SpecifiedTradeProduct>
+
+    /// ---------------------
+    /// --- TradeProduct ---
     const tradePrdEl = get1stEl(invoiceLine, "cac:Item")
     const prdName = get1stElTxt(tradePrdEl, "cbc:Name")
     const prdDescription = get1stElTxtMissingOk(tradePrdEl, "cbc:Description")
@@ -113,16 +118,19 @@ export class InvoiceXRechnungUblXmlReader extends InvoiceXmlReaderBase {
       "cac:BuyersItemIdentification/cbc:ID",
     )
 
+    // /cac:Item/cac:AdditionalItemProperty
+    // /cac:Item/cac:AdditionalItemProperty/cbc:Name
+    // /cac:Item/cac:AdditionalItemProperty/cbc:Value
     let applPrdCharacteristic = undefined
     const applPrdCharactEl = get1stElMissingOk(
       tradePrdEl,
-      "ram:ApplicableProductCharacteristic",
+      "cac:AdditionalItemProperty",
     )
     if (applPrdCharactEl) {
-      const prdCharValue = get1stElTxt(applPrdCharactEl, "ram:Value")
+      const prdCharValue = get1stElTxt(applPrdCharactEl, "cbc:Value")
       const prdCharDescription = get1stElTxt(
         applPrdCharactEl,
-        "ram:Description",
+        "cbc:Name",
       )
       applPrdCharacteristic = new invoiceDefs
         .ApplicableProductCharacteristic({
@@ -140,8 +148,11 @@ export class InvoiceXRechnungUblXmlReader extends InvoiceXmlReaderBase {
       applicableProductCharacteristic: applPrdCharacteristic,
     })
 
+    /// ---------------------
+    /// --- TradeDelivery ---
     // XRechung UBL standard
     // <cbc:InvoicedQuantity unitCode="EA">10</cbc:InvoicedQuantity>
+    // <cbc:PackageQuantity unitCode="EA">10</cbc:PackageQuantity> (correct?)
     //
     // For comparision: The same code for ZUGFeRD:
     // <ram:SpecifiedLineTradeDelivery>
@@ -160,18 +171,15 @@ export class InvoiceXRechnungUblXmlReader extends InvoiceXmlReaderBase {
       quantity: billedQuantityNum,
     })
 
-    const tradeDeliveryEl = get1stEl(invoiceLine, "ram:SpecifiedLineTradeDelivery")
-    const packageQuantityTxt = get1stElTxtMissingOk(
-      tradeDeliveryEl,
-      "ram:PackageQuantity",
-    )
+    const packageQuantityTxt = get1stElTxtMissingOk(invoiceLine, "cbc:PackageQuantity")
+
     let packageQuantityNum = undefined
     let packageQuantityUnitCode = undefined
-    if (packageQuantityNum) {
+    if (packageQuantityTxt) {
       packageQuantityNum = parseFloat(<string> packageQuantityTxt)
       packageQuantityUnitCode = get1stElAttr(
-        tradeDeliveryEl,
-        "ram:PackageQuantity",
+        invoiceLine,
+        "cbc:PackageQuantity",
         "unitCode",
       )
     }

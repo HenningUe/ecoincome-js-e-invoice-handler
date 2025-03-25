@@ -1,0 +1,6 @@
+https://github.com/itplr-kosit/xrechnung-testsuite/tree/master
+https://www.orgamax.de/e-rechnung-beispiele/#c67207
+https://github.com/OpenPEPPOL/peppol-bis-invoice-3/blob/master/rules/examples/vat-category-E.xml
+
+very good mapping between CII (cross industry standard) and ubl
+https://github.com/phax/en16931-cii2ubl/tree/master/docs
