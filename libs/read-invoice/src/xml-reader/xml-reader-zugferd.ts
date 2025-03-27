@@ -1,6 +1,6 @@
 import * as xpath from "xpath-ts"
 import * as invoiceDefs from "../invoice-dtos.ts"
-import { InvoiceXmlReaderBase } from "./xml-reader-base.ts"
+import { InvoiceXmlReaderBase, XmlParseHelper } from "./xml-reader-base.ts"
 
 export class InvoiceZugpferdXmlReader extends InvoiceXmlReaderBase {
   override xmlDocIsThisInvoiceType(): boolean {
@@ -43,11 +43,11 @@ export class InvoiceZugpferdXmlReader extends InvoiceXmlReaderBase {
   }
 
   private readSingleTradeLineItem(node: Node): invoiceDefs.TradeLineItem {
-    const get1stEl = InvoiceXmlReaderBase.get1stEl
-    const get1stElTxt = InvoiceXmlReaderBase.get1stElTxt
-    const get1stElTxtMissingOk = InvoiceXmlReaderBase.get1stElTxtMissingOk
-    const get1stElAttr = InvoiceXmlReaderBase.get1stElAttr
-    const get1stElMissingOk = InvoiceXmlReaderBase.get1stElMissingOk
+    const get1stEl = XmlParseHelper.get1stEl
+    const get1stElTxt = XmlParseHelper.get1stElTxt
+    const get1stElTxtMissingOk = XmlParseHelper.get1stElTxtMissingOk
+    const get1stElAttr = XmlParseHelper.get1stElAttr
+    const get1stElMissingOk = XmlParseHelper.get1stElMissingOk
 
     // <ram:SpecifiedTradeProduct>
     //   <ram:GlobalID schemeID="0160">4123456000014</ram:GlobalID>
@@ -65,7 +65,10 @@ export class InvoiceZugpferdXmlReader extends InvoiceXmlReaderBase {
     if (prdGlobalID) {
       schemeID = get1stElAttr(tradePrdEl, "ram:GlobalID", "schemeID")
     }
-    const prdSellerAssignedID = get1stElTxtMissingOk(tradePrdEl, "ram:SellerAssignedID")
+    const prdSellerAssignedID = get1stElTxtMissingOk(
+      tradePrdEl,
+      "ram:SellerAssignedID",
+    )
     const prdDescription = get1stElTxtMissingOk(tradePrdEl, "ram:Description")
 
     let applPrdCharacteristic = undefined
@@ -85,7 +88,10 @@ export class InvoiceZugpferdXmlReader extends InvoiceXmlReaderBase {
         value: prdCharValue,
       })
     }
-    const globPrdId = new invoiceDefs.GlobalProductIdentifier(prdGlobalID, schemeID)
+    const globPrdId = new invoiceDefs.GlobalProductIdentifier(
+      prdGlobalID,
+      schemeID,
+    )
     const tradePrd = new invoiceDefs.TradeProduct({
       name: prdName,
       globalProductId: globPrdId,
@@ -99,7 +105,10 @@ export class InvoiceZugpferdXmlReader extends InvoiceXmlReaderBase {
     //   <ram:PackageQuantity unitCode="XBO">20.0000</ram:PackageQuantity>
     // </ram:SpecifiedLineTradeDelivery>
     const tradeDeliveryEl = get1stEl(node, "ram:SpecifiedLineTradeDelivery")
-    const billedQuantityTxt = get1stElTxt(tradeDeliveryEl, "ram:BilledQuantity")
+    const billedQuantityTxt = get1stElTxt(
+      tradeDeliveryEl,
+      "ram:BilledQuantity",
+    )
     const billedQuantityNum = parseFloat(billedQuantityTxt)
     const billedQuantityUnitCode = get1stElAttr(
       tradeDeliveryEl,
@@ -117,7 +126,7 @@ export class InvoiceZugpferdXmlReader extends InvoiceXmlReaderBase {
     )
     let packageQuantityNum = undefined
     let packageQuantityUnitCode = undefined
-    if (packageQuantityNum) {
+    if (packageQuantityTxt) {
       packageQuantityNum = parseFloat(<string> packageQuantityTxt)
       packageQuantityUnitCode = get1stElAttr(
         tradeDeliveryEl,
@@ -134,7 +143,10 @@ export class InvoiceZugpferdXmlReader extends InvoiceXmlReaderBase {
       billedQuantity,
       packageQuantity,
     )
-    const tradeLineItem = new invoiceDefs.TradeLineItem(tradeDelivery, tradePrd)
+    const tradeLineItem = new invoiceDefs.TradeLineItem(
+      tradeDelivery,
+      tradePrd,
+    )
     return tradeLineItem
   }
 }

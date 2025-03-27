@@ -8,8 +8,10 @@ export abstract class InvoiceXmlReaderBase {
   abstract readInvoiceFromXml(): invoiceDefs.Invoice
 
   abstract xmlDocIsThisInvoiceType(): boolean
+}
 
-  protected static get1stEl(
+export class XmlParseHelper {
+  static get1stEl(
     node: Node,
     tagName: string,
   ): Node {
@@ -25,7 +27,7 @@ export abstract class InvoiceXmlReaderBase {
     return node0
   }
 
-  protected static get1stElMissingOk(
+  static get1stElMissingOk(
     node: Node,
     tagName: string,
   ): Node | undefined {
@@ -35,7 +37,7 @@ export abstract class InvoiceXmlReaderBase {
     return node0
   }
 
-  protected static get1stElAttr(
+  static get1stElAttr(
     node: Node,
     tagName: string,
     attrName: string,
@@ -44,7 +46,7 @@ export abstract class InvoiceXmlReaderBase {
     let val: string
     try {
       //@ts-ignore: TS2399
-      val = InvoiceXmlReaderBase.get1stEl(node, tagName).getAttribute(attrName)
+      val = XmlParseHelper.get1stEl(node, tagName).getAttribute(attrName)
     } catch (error) {
       if (error instanceof TagMissingError && valIfMissing != undefined) {
         val = valIfMissing
@@ -55,7 +57,7 @@ export abstract class InvoiceXmlReaderBase {
     return val
   }
 
-  protected static get1stElTxtMissingOk(
+  static get1stElTxtMissingOk(
     node: Node,
     tagName: string,
     valIfMissing: string | undefined = undefined,
@@ -63,7 +65,7 @@ export abstract class InvoiceXmlReaderBase {
     let val: string | undefined
     try {
       //@ts-ignore: TS2399
-      val = InvoiceXmlReaderBase.get1stEl(node, tagName).textContent
+      val = XmlParseHelper.get1stEl(node, tagName).textContent
     } catch (error) {
       if (error instanceof TagMissingError) {
         val = valIfMissing
@@ -74,12 +76,12 @@ export abstract class InvoiceXmlReaderBase {
     return val
   }
 
-  protected static get1stElTxt(
+  static get1stElTxt(
     node: Node,
     tagName: string,
   ): string {
     //@ts-ignore: TS2399
-    const val = InvoiceXmlReaderBase.get1stEl(node, tagName).textContent
+    const val = XmlParseHelper.get1stEl(node, tagName).textContent
     return val
   }
 }

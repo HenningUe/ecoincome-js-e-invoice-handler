@@ -1,6 +1,6 @@
 import * as xpath from "xpath-ts"
 import * as invoiceDefs from "../invoice-dtos.ts"
-import { InvoiceXmlReaderBase } from "./xml-reader-base.ts"
+import { InvoiceXmlReaderBase, XmlParseHelper } from "./xml-reader-base.ts"
 
 /**
  * Reads an XRechnung UBL XML invoice.
@@ -41,66 +41,78 @@ export class InvoiceXRechnungUblXmlReader extends InvoiceXmlReaderBase {
     const tradeLineItems: invoiceDefs.TradeLineItem[] = []
     //@ts-ignore: TS2488
     for (const node of nodes) {
-      const tradeLineItem = this.readSingleTradeLineItem(node)
+      const tradeLineItem = new TradeLineItemReader(node).readSingleTradeLineItem()
       tradeLineItems.push(tradeLineItem)
     }
     const tradeTransaction = new invoiceDefs.TradeTransaction(tradeLineItems)
     return new invoiceDefs.Invoice(tradeTransaction)
   }
+}
 
-  private readSingleTradeLineItem(invoiceLine: Node): invoiceDefs.TradeLineItem {
-    const get1stEl = InvoiceXmlReaderBase.get1stEl
-    const get1stElTxt = InvoiceXmlReaderBase.get1stElTxt
-    const get1stElTxtMissingOk = InvoiceXmlReaderBase.get1stElTxtMissingOk
-    const get1stElAttr = InvoiceXmlReaderBase.get1stElAttr
-    const get1stElMissingOk = InvoiceXmlReaderBase.get1stElMissingOk
+/**
+ * Reads a single trade line item from an XRechnung UBL XML invoice.
+   XRechung UBL standard
+  <cac:InvoiceLine>
+    <cbc:ID>1</cbc:ID>
+    <cbc:InvoicedQuantity unitCode="EA">10</cbc:InvoicedQuantity>
+    <cbc:LineExtensionAmount currencyID="GBP">1200.00</cbc:LineExtensionAmount>
+    <cac:OrderLineReference>
+        <cbc:LineID>1</cbc:LineID>
+    </cac:OrderLineReference>
+    <cac:Item>
+        <cbc:Name>Test item, category Z</cbc:Name>
+        <cbc:Description>Positionsbeschreibung (BT-154)</cbc:Description>
+        <cac:BuyersItemIdentification>
+          <cbc:ID>Artikelnummer des Käufers (BT-156)</cbc:ID>
+        </cac:BuyersItemIdentification>
+        <cac:SellersItemIdentification>
+          <cbc:ID>Artikelnummer des Verkäufers (BT-155)</cbc:ID>
+        </cac:SellersItemIdentification>
+        <cac:StandardItemIdentification>
+            <cbc:ID schemeID="0160">192387129837129873</cbc:ID>
+        </cac:StandardItemIdentification>
+        <cac:ClassifiedTaxCategory>
+            <cbc:ID>E</cbc:ID>
+            <cbc:Percent>0</cbc:Percent>
+            <cac:TaxScheme>
+                <cbc:ID>VAT</cbc:ID>
+            </cac:TaxScheme>
+        </cac:ClassifiedTaxCategory>
+    </cac:Item>
+    <cac:Price>
+        <cbc:PriceAmount currencyID="GBP">120.00</cbc:PriceAmount>
+    </cac:Price>
+  </cac:InvoiceLine>
 
-    // XRechung UBL standard
-    // <cac:InvoiceLine>
-    //   <cbc:ID>1</cbc:ID>
-    //   <cbc:InvoicedQuantity unitCode="EA">10</cbc:InvoicedQuantity>
-    //   <cbc:LineExtensionAmount currencyID="GBP">1200.00</cbc:LineExtensionAmount>
-    //   <cac:OrderLineReference>
-    //       <cbc:LineID>1</cbc:LineID>
-    //   </cac:OrderLineReference>
-    //   <cac:Item>
-    //       <cbc:Name>Test item, category Z</cbc:Name>
-    //      <cbc:Description>Positionsbeschreibung (BT-154)</cbc:Description>
-    //       <cac:BuyersItemIdentification>
-    //         <cbc:ID>Artikelnummer des Käufers (BT-156)</cbc:ID>
-    //       </cac:BuyersItemIdentification>
-    //       <cac:SellersItemIdentification>
-    //         <cbc:ID>Artikelnummer des Verkäufers (BT-155)</cbc:ID>
-    //       </cac:SellersItemIdentification>
-    //       <cac:StandardItemIdentification>
-    //           <cbc:ID schemeID="0160">192387129837129873</cbc:ID>
-    //       </cac:StandardItemIdentification>
-    //       <cac:ClassifiedTaxCategory>
-    //           <cbc:ID>E</cbc:ID>
-    //           <cbc:Percent>0</cbc:Percent>
-    //           <cac:TaxScheme>
-    //               <cbc:ID>VAT</cbc:ID>
-    //           </cac:TaxScheme>
-    //       </cac:ClassifiedTaxCategory>
-    //   </cac:Item>
-    //   <cac:Price>
-    //       <cbc:PriceAmount currencyID="GBP">120.00</cbc:PriceAmount>
-    //   </cac:Price>
-    // </cac:InvoiceLine>
-    //
-    // For comparision: The same code for ZUGFeRD:
-    // <ram:SpecifiedTradeProduct>
-    //   <ram:GlobalID schemeID="0160">4123456000014</ram:GlobalID> //GTIN (Global article number)
-    //   <ram:SellerAssignedID>ZS997</ram:SellerAssignedID>
-    //   <ram:Name>Zitronensäure 100ml</ram:Name>
-    //   <ram:ApplicableProductCharacteristic>
-    //     <ram:Description>Verpackungsart</ram:Description>
-    //     <ram:Value>BO</ram:Value>
-    //   </ram:ApplicableProductCharacteristic>
-    // </ram:SpecifiedTradeProduct>
+  For comparision: The same code for ZUGFeRD:
+  <ram:SpecifiedTradeProduct>
+    <ram:GlobalID schemeID="0160">4123456000014</ram:GlobalID> //GTIN (Global article number)
+    <ram:SellerAssignedID>ZS997</ram:SellerAssignedID>
+    <ram:Name>Zitronensäure 100ml</ram:Name>
+    <ram:ApplicableProductCharacteristic>
+      <ram:Description>Verpackungsart</ram:Description>
+      <ram:Value>BO</ram:Value>
+    </ram:ApplicableProductCharacteristic>
+  </ram:SpecifiedTradeProduct>
+ */
+export class TradeLineItemReader {
+  constructor(public itemRootNode: Node) {}
 
-    /// ---------------------
-    /// --- TradeProduct ---
+  readSingleTradeLineItem(): invoiceDefs.TradeLineItem {
+    const tradePrd = this.readTradeProduct()
+    const tradeDelivery = this.readTradeDelivery()
+    const tradeLineItem = new invoiceDefs.TradeLineItem(tradeDelivery, tradePrd)
+    return tradeLineItem
+  }
+
+  private readTradeProduct(): invoiceDefs.TradeProduct {
+    const get1stEl = XmlParseHelper.get1stEl
+    const get1stElTxt = XmlParseHelper.get1stElTxt
+    const get1stElTxtMissingOk = XmlParseHelper.get1stElTxtMissingOk
+    const get1stElAttr = XmlParseHelper.get1stElAttr
+    const get1stElMissingOk = XmlParseHelper.get1stElMissingOk
+
+    const invoiceLine = this.itemRootNode
     const tradePrdEl = get1stEl(invoiceLine, "cac:Item")
     const prdName = get1stElTxt(tradePrdEl, "cbc:Name")
     const prdDescription = get1stElTxtMissingOk(tradePrdEl, "cbc:Description")
@@ -147,7 +159,15 @@ export class InvoiceXRechnungUblXmlReader extends InvoiceXmlReaderBase {
       buyerAssignedId: prdBuyerAssignedID,
       applicableProductCharacteristic: applPrdCharacteristic,
     })
+    return tradePrd
+  }
 
+  private readTradeDelivery() {
+    const get1stElTxt = XmlParseHelper.get1stElTxt
+    const get1stElTxtMissingOk = XmlParseHelper.get1stElTxtMissingOk
+    const get1stElAttr = XmlParseHelper.get1stElAttr
+
+    const invoiceLine = this.itemRootNode
     /// ---------------------
     /// --- TradeDelivery ---
     // XRechung UBL standard
@@ -192,7 +212,6 @@ export class InvoiceXRechnungUblXmlReader extends InvoiceXmlReaderBase {
       billedQuantity,
       packageQuantity,
     )
-    const tradeLineItem = new invoiceDefs.TradeLineItem(tradeDelivery, tradePrd)
-    return tradeLineItem
+    return tradeDelivery
   }
 }
